@@ -22,18 +22,16 @@ void connect::on_buttonBox_accepted()
     db.setPassword(ui->PasswordEdit->text());
   if (!db.open()) {
         QMessageBox::warning(0, "Ошибка подключения.", db.lastError().text());
-        return; // возвращаемся на окно виджета
+        return; 
     }
 
     QMessageBox::information(0, "Успешно", "Соединение с БД установлено!");
     auto w= new MainWindow();
-    w->show();//показываем MainWindow
-    //this->hide();//скрываем текущий виджет
-    this->close();//закрываем текущий виджет
-     this->setAttribute(Qt::WA_DeleteOnClose);//удаляет виджет при закрытии и попадаем в деструктор, чтоб не засорял память
+    w->show();
+    //this->hide();
+    this->close();
+     this->setAttribute(Qt::WA_DeleteOnClose);
 }
-
-
 
 void connect::on_buttonBox_rejected()
 {
