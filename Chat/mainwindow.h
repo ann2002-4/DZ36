@@ -14,22 +14,22 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(int userId,QString Qemail,QWidget *parent = nullptr);//конструктор
+    explicit MainWindow(int userId,QString Qemail,QWidget *parent = nullptr);
     ~MainWindow();
-    static MainWindow* createClient();// тестовая функция для переключения в StartScreen, через кнопку another client
-    static int kInstanceCount;//Cancel не будет приводить к закрытию программы
+    static MainWindow* createClient();
+    static int kInstanceCount;
 
 private slots:
 
-    void on_messageLineEdit_returnPressed();//messageLineEdit
+    void on_messageLineEdit_returnPressed();
 
-    void on_sendMessageButton_clicked();//Send to all
+    void on_sendMessageButton_clicked();
 
-    void on_privateMessageButton_clicked();//Send private
+    void on_privateMessageButton_clicked();
 
-    void on_actionOpen_another_client_triggered();//actionOpen_another_client
+    void on_actionOpen_another_client_triggered();
 
-    void on_actionCloseThisClient_triggered();//actionCloseThisClient
+    void on_actionCloseThisClient_triggered();
 
     void updateChats();
 
