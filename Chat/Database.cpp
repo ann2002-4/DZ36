@@ -1,6 +1,6 @@
 #include "Database.h"
 
-bool createConnection()//сооединение с базой
+bool createConnection()
 {   db.setHostName("localhost");
     db.setDatabaseName("postgres");
     db.setUserName("postgres");
