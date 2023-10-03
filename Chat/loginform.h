@@ -17,15 +17,15 @@ public:
     explicit LoginForm(QWidget *parent = nullptr);
     ~LoginForm();
 signals:
-    void RegistrationRequested();//функция для переключения на RegistrationForm для кнопки Registration
-    void accepted(int userId,QString Qemail);// если принято
+    void RegistrationRequested();
+    void accepted(int userId,QString Qemail);
     void rejected();// если отклонено
 private slots:
     void on_RegistrationButton_clicked();
 
-    void on_buttonBox_accepted();//Ok\ Cancel если принято
+    void on_buttonBox_accepted();
 
-    void on_buttonBox_rejected();//Ok\ Cancel если отклонено
+    void on_buttonBox_rejected();
 
 private:
     Ui::LoginForm *ui;
