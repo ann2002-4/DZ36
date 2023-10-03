@@ -22,7 +22,7 @@ void connect::on_buttonBox_accepted()
     db.setPassword(ui->PasswordEdit->text());
   if (!db.open()) {
         QMessageBox::warning(0, "Ошибка подключения.", db.lastError().text());
-        return; // возвращаемся на окно виджета
+        return; 
     }
 
     QMessageBox::information(0, "Успешно", "Соединение с БД установлено!");
