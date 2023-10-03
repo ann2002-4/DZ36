@@ -9,7 +9,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    connect window;//запускаем класс соединения с базой
+    connect window;
     window.show();
     return a.exec();
 }
