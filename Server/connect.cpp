@@ -28,14 +28,12 @@ void connect::on_buttonBox_accepted()
     QMessageBox::information(0, "Успешно", "Соединение с БД установлено!");
     auto w= new MainWindow();
     w->show();
-    //this->hide();
     this->close();
      this->setAttribute(Qt::WA_DeleteOnClose);
 }
 
 void connect::on_buttonBox_rejected()
 {
-    //emit rejected();
     close();
 }
 
