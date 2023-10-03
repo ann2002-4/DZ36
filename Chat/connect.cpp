@@ -39,7 +39,6 @@ void connect::on_buttonBox_accepted()
 
 void connect::on_buttonBox_rejected()
 {
-    //emit rejected();
     close();
 }
 
