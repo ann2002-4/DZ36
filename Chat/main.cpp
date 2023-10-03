@@ -8,8 +8,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    //createConnection();
-    connect window;//запускаем класс соединения с базой
+    connect window;
     window.show();
     return a.exec();
 
