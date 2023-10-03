@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include <QVBoxLayout>//вертикальное выравнивание
+#include <QVBoxLayout>
 #include <QDialogButtonBox>
 #include <QListWidget>
-#include <QTimer>//таймер
+#include <QTimer>
 
 
 int MainWindow::kInstanceCount=0;
@@ -14,9 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     kInstanceCount++;
-    auto timer=new QTimer(this);//завели новый таймер, будет периодически обновлять поля с сообщениями
-    connect(timer,&QTimer::timeout,this,&MainWindow::updateChats);//каждый раз как срабатывает таймер,обновляется чат(информация из БД)
-    timer->start(10);//таймер срабатывает раз в 10 миллисекунд
+    auto timer=new QTimer(this);
+    connect(timer,&QTimer::timeout,this,&MainWindow::updateChats);
+    timer->start(10);
 }
 
 MainWindow::~MainWindow()
@@ -35,7 +35,6 @@ void MainWindow::updateChats()
                    "JOIN history_data hd ON rd.id_user = hd.id_sender");
 
     QString chat;
-    // Выводим результаты запроса
     for (int row = 0; row < model.rowCount(); ++row) {
         QString email = model.record(row).value("sender_name").toString();
         QString message = model.record(row).value("message").toString();
@@ -44,35 +43,34 @@ void MainWindow::updateChats()
     }
     if(ui->commonChatBrowser->toPlainText()!=chat)
         ui->commonChatBrowser->setText(chat);
-    // Устанавливаем текст в QTextBrowser
-    chat.clear();//очищяем переменную
+    chat.clear();
 }
 
 
 
 void MainWindow::on_Choose_userButton_clicked()
 {
-    QDialog dial(this);//создаем отдельное окно
-    dial.setModal(true);//прерывает работу программы, пока не закроем диалог
-    auto l=new QVBoxLayout();//auto-QVBoxLayout, new QVBoxLayout - удаляется автоматически для освобождения памяти
-    dial.setLayout(l);//устанавливаем QVBoxLayout l
-    auto userListWgt=new QListWidget(&dial);   //auto-QListWidget
+    QDialog dial(this);
+    dial.setModal(true);
+    auto l=new QVBoxLayout();
+    dial.setLayout(l);
+    auto userListWgt=new QListWidget(&dial);  
     l->addWidget(userListWgt);
-    auto buttonBox=new QDialogButtonBox(QDialogButtonBox::Ok |QDialogButtonBox::Cancel,&dial);//auto - QDialogButtonBox
+    auto buttonBox=new QDialogButtonBox(QDialogButtonBox::Ok |QDialogButtonBox::Cancel,&dial);
     l->addWidget(buttonBox);
 
     connect(buttonBox,&QDialogButtonBox::accepted, &dial,&QDialog::accept);
     connect(buttonBox,&QDialogButtonBox::rejected, &dial,&QDialog::reject);
 
-    auto userList=getUserList();//создает список
-    for(auto user:userList)//заполняет имеющимися юзерами
+    auto userList=getUserList();
+    for(auto user:userList)
     {userListWgt->addItem(QString::fromStdString(user));};
 
-    userListWgt->setCurrentRow(0);//всегда будет выбран в начале 1-ый юзер в списке, подразумевается, что в чате зарегистрирован хотя бы 1
+    userListWgt->setCurrentRow(0);
 
     auto result= dial.exec();
 
-    if(result==QDialog::Accepted && userListWgt->currentItem())// положительный исход, при отрицательном Диалог удалится && существует хотя бы 1 возможный получатель
+    if(result==QDialog::Accepted && userListWgt->currentItem())
     {   QSqlQueryModel model;
          QString chat;
         auto email_receiver = userListWgt->currentItem()->text();
@@ -90,34 +88,34 @@ void MainWindow::on_Choose_userButton_clicked()
         }
 
         auto current = ui->privateChatBrowser->toPlainText();
-        if(ui->privateChatBrowser->toPlainText()!=chat)//если появилось новое сообщение
+        if(ui->privateChatBrowser->toPlainText()!=chat)
             ui->privateChatBrowser->setText(chat);}
 }
 
 
 void MainWindow::on_BanButton_clicked()
 {
-    QDialog dial(this);//создаем отдельное окно
-    dial.setModal(true);//прерывает работу программы, пока не закроем диалог
-    auto l=new QVBoxLayout();//auto-QVBoxLayout, new QVBoxLayout - удаляется автоматически для освобождения памяти
-    dial.setLayout(l);//устанавливаем QVBoxLayout l
-    auto userListWgt=new QListWidget(&dial);   //auto-QListWidget
+    QDialog dial(this);
+    dial.setModal(true);
+    auto l=new QVBoxLayout();
+    dial.setLayout(l);
+    auto userListWgt=new QListWidget(&dial);   
     l->addWidget(userListWgt);
-    auto buttonBox=new QDialogButtonBox(QDialogButtonBox::Ok |QDialogButtonBox::Cancel,&dial);//auto - QDialogButtonBox
+    auto buttonBox=new QDialogButtonBox(QDialogButtonBox::Ok |QDialogButtonBox::Cancel,&dial);
     l->addWidget(buttonBox);
 
     connect(buttonBox,&QDialogButtonBox::accepted, &dial,&QDialog::accept);
     connect(buttonBox,&QDialogButtonBox::rejected, &dial,&QDialog::reject);
 
-    auto userList=getUserList();//создает список
-    for(auto user:userList)//заполняет имеющимися юзерами
+    auto userList=getUserList();
+    for(auto user:userList)
     {userListWgt->addItem(QString::fromStdString(user));};
 
-    userListWgt->setCurrentRow(0);//всегда будет выбран в начале 1-ый юзер в списке, подразумевается, что в чате зарегистрирован хотя бы 1
+    userListWgt->setCurrentRow(0);
 
     auto result= dial.exec();
 
-    if(result==QDialog::Accepted && userListWgt->currentItem())// положительный исход, при отрицательном Диалог удалится && существует хотя бы 1 возможный получатель
+    if(result==QDialog::Accepted && userListWgt->currentItem())
     {
       QSqlQuery query;
         auto email_receiver = userListWgt->currentItem()->text();
