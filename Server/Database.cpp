@@ -23,9 +23,9 @@ QString getid(QString Qemail)
     QSqlQueryModel *model = new QSqlQueryModel;
     model->setQuery("SELECT id_user FROM registration_data WHERE (email=\'"+Qemail+"\')");
     if (model->rowCount() > 0)
-    {        QModelIndex index = model->index(0, 0); // индекс первой ячейки
+    {        QModelIndex index = model->index(0, 0); 
          id_user_sender = model->data(index).toString();
-    }; // получение значения ячейки в виде строки
+    };
     return id_user_sender;
 
 }
@@ -37,9 +37,9 @@ QString getQemail(QString Qid)
 
     model->setQuery("SELECT email FROM registration_data WHERE (id_user=\'"+Qid+"\')");
     if (model->rowCount() > 0)
-    {        QModelIndex index = model->index(0, 0); // индекс первой ячейки
+    {        QModelIndex index = model->index(0, 0); 
          Qmale = model->data(index).toString();
-    }; // получение значения ячейки в виде строки
+    };
     return Qmale;
 
 }
