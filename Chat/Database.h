@@ -16,7 +16,7 @@ bool createConnection();
 
 
 
-int addUser(std::string email);//общая проверка
+int addUser(std::string email);
 int checkPassword(std::string email,std::string password);
 void addChatMessage(std::string email,std::string message);
 void addPrivateMessage(std::string email,std::string email_receiver, std::string message);
