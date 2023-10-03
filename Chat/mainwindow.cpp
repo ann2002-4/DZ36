@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "startscreen.h"
-#include <QVBoxLayout>//вертикальное выравнивание
+#include <QVBoxLayout>
 #include <QDialogButtonBox>
 #include <QListWidget>
 #include <QTimer>//таймер
@@ -16,9 +16,9 @@ MainWindow::MainWindow(int userId,QString Qemail,QWidget *parent) :
 {
     ui->setupUi(this);
     kInstanceCount++;
-    auto timer=new QTimer(this);//завели новый таймер, будет периодически обновлять поля с сообщениями
-    connect(timer,&QTimer::timeout,this,&MainWindow::updateChats);//каждый раз как срабатывает таймер,обновляется чат(информация из БД)
-    timer->start(10);//таймер срабатывает раз в 10 миллисекунд
+    auto timer=new QTimer(this);
+    connect(timer,&QTimer::timeout,this,&MainWindow::updateChats);
+    timer->start(10);
 }
 
 MainWindow::~MainWindow()
@@ -32,18 +32,16 @@ MainWindow *MainWindow::createClient()
 {
     StartScreen s;
     auto result=s.exec();
-    if(result==QDialog::Rejected)//QDialog::Rejected = 0
-    {return nullptr;};//мы ничего не создали
+    if(result==QDialog::Rejected)
+    {return nullptr;};
     auto w= new MainWindow(s.user_id(),s.getQemail());
-    w->setAttribute(Qt::WA_DeleteOnClose);//удаляет виджет при закрытии и попадаем в деструктор
+    w->setAttribute(Qt::WA_DeleteOnClose);
     return w;
 }
 
-
-
 void MainWindow::on_messageLineEdit_returnPressed()
 {
-    on_sendMessageButton_clicked();//при нажатии в поле Enter, будет отправляться для всех
+    on_sendMessageButton_clicked();
 }
 
 
@@ -55,31 +53,31 @@ void MainWindow::on_sendMessageButton_clicked()
 
 void MainWindow::on_privateMessageButton_clicked()
 {
-  QDialog dial(this);//создаем отдельное окно
-  dial.setModal(true);//прерывает работу программы, пока не закроем диалог
-  auto l=new QVBoxLayout();//auto-QVBoxLayout, new QVBoxLayout - удаляется автоматически для освобождения памяти
-  dial.setLayout(l);//устанавливаем QVBoxLayout l
-  auto userListWgt=new QListWidget(&dial);   //auto-QListWidget
+  QDialog dial(this);
+  dial.setModal(true);
+  auto l=new QVBoxLayout();
+  dial.setLayout(l);
+  auto userListWgt=new QListWidget(&dial);   
   l->addWidget(userListWgt);
-  auto buttonBox=new QDialogButtonBox(QDialogButtonBox::Ok |QDialogButtonBox::Cancel,&dial);//auto - QDialogButtonBox
+  auto buttonBox=new QDialogButtonBox(QDialogButtonBox::Ok |QDialogButtonBox::Cancel,&dial);
   l->addWidget(buttonBox);
 
   connect(buttonBox,&QDialogButtonBox::accepted, &dial,&QDialog::accept);
   connect(buttonBox,&QDialogButtonBox::rejected, &dial,&QDialog::reject);
 
-  auto userList=getUserList();//создает список
-  for(auto user:userList)//заполняет имеющимися юзерами
+  auto userList=getUserList();
+  for(auto user:userList)
   {userListWgt->addItem(QString::fromStdString(user));};
 
-  userListWgt->setCurrentRow(0);//всегда будет выбран в начале 1-ый юзер в списке, подразумевается, что в чате зарегистрирован хотя бы 1
+  userListWgt->setCurrentRow(0);
 
   auto result= dial.exec();
   auto email_receiver = userListWgt->currentItem()->text().toStdString();
-  if(result==QDialog::Accepted && userListWgt->currentItem())// положительный исход, при отрицательном Диалог удалится && существует хотя бы 1 возможный получатель
+  if(result==QDialog::Accepted && userListWgt->currentItem())
   {
       addPrivateMessage(m_Qemail.toStdString(),
                                  email_receiver,
-                                 ui->messageLineEdit->text().toStdString());//сообщение
+                                 ui->messageLineEdit->text().toStdString());
   }
 
 }
@@ -106,7 +104,6 @@ void MainWindow::updateChats()
                   "JOIN history_data hd ON rd.id_user = hd.id_sender");
 
     QString chat;
-    // Выводим результаты запроса
     for (int row = 0; row < model.rowCount(); ++row) {
      QString email = model.record(row).value("sender_name").toString();
     QString message = model.record(row).value("message").toString();
@@ -115,8 +112,7 @@ void MainWindow::updateChats()
     }
     if(ui->commonChatBrowser->toPlainText()!=chat)
     ui->commonChatBrowser->setText(chat);
-    // Устанавливаем текст в QTextBrowser
-    chat.clear();//очищяем переменную
+    chat.clear();
 
 
 
@@ -136,8 +132,8 @@ void MainWindow::updateChats()
     }
 
     auto current = ui->privateChatBrowser->toPlainText();
-    if(ui->privateChatBrowser->toPlainText()!=chat)//если появилось новое сообщение
-    ui->privateChatBrowser->setText(chat);//на этом заказнчивается реализация приватного чата
+    if(ui->privateChatBrowser->toPlainText()!=chat)
+    ui->privateChatBrowser->setText(chat);
 };
 
 
