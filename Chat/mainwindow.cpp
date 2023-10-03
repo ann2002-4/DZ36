@@ -4,7 +4,7 @@
 #include <QVBoxLayout>
 #include <QDialogButtonBox>
 #include <QListWidget>
-#include <QTimer>//таймер
+#include <QTimer>
 
 int MainWindow::kInstanceCount=0;
 
