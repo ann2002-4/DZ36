@@ -28,9 +28,9 @@ private:
 
     Ui::MainWindow *ui;
 private slots:
-    void on_buttonBox_accepted();//Ok\ Cancel если принято
+    void on_buttonBox_accepted();
 
-    void on_buttonBox_rejected();//Ok\ Cancel если отклонено
+    void on_buttonBox_rejected();
 
 
 };
