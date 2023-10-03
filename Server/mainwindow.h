@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    static int kInstanceCount;//Cancel не будет приводить к закрытию программы
+    static int kInstanceCount;
     void updateChats();
 
 private slots:
