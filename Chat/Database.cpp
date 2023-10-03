@@ -50,8 +50,8 @@ int checkPassword(std::string email, std::string password)
     model->setQuery("SELECT id_user FROM registration_data WHERE (email=\'"+Qemail+"\')");
     if (model->rowCount() > 0)
     {    j=1;
-        QModelIndex index = model->index(0, 0); // индекс первой ячейки
-        id_user = model->data(index).toString(); // получение значения ячейки в виде строки
+        QModelIndex index = model->index(0, 0); 
+        id_user = model->data(index).toString(); 
         model->setQuery("SELECT * FROM authorization_data WHERE (id_user=\'"+id_user+"\') AND (password=\'"+Qpassword+"\') ");
         if (model->rowCount() > 0)
         {
@@ -71,8 +71,8 @@ void addChatMessage(std::string email, std::string message)
     model->setQuery("SELECT id_user FROM registration_data WHERE (email=\'"+Qemail+"\')");
     if (model->rowCount() > 0)
     {
-        QModelIndex index = model->index(0, 0); // индекс первой ячейки
-        id_user = model->data(index).toString(); // получение значения ячейки в виде строки
+        QModelIndex index = model->index(0, 0); 
+        id_user = model->data(index).toString(); 
     query.prepare("INSERT INTO history_data (id_sender, message) VALUES (:id_sender,:message)");
     query.bindValue(":id_sender", id_user);
     query.bindValue(":message", Qmessage);
@@ -106,13 +106,13 @@ void addPrivateMessage(std::string email,std::string email_receiver, std::string
     QSqlQueryModel *model = new QSqlQueryModel;
     model->setQuery("SELECT id_user FROM registration_data WHERE (email=\'"+Qemail+"\')");
     if (model->rowCount() > 0)
-    {        QModelIndex index = model->index(0, 0); // индекс первой ячейки
-        id_user_sender = model->data(index).toString(); // получение значения ячейки в виде строки
+    {        QModelIndex index = model->index(0, 0); 
+        id_user_sender = model->data(index).toString();
         model->setQuery("SELECT id_user FROM registration_data WHERE (email=\'"+Qemail_receiver+"\')");
 
         if (model->rowCount() > 0){
         index = model->index(0, 0); // индекс первой ячейки
-        id_user_receiver = model->data(index).toString(); // получение значения ячейки в виде строки
+        id_user_receiver = model->data(index).toString(); 
         query.prepare("INSERT INTO history_private_data (id_sender,id_receiver, message) VALUES (:id_sender,:id_receiver, :message)");
         query.bindValue(":id_sender", id_user_sender);
         query.bindValue(":id_receiver", id_user_receiver);
@@ -122,18 +122,15 @@ void addPrivateMessage(std::string email,std::string email_receiver, std::string
         }
 }
 
-
-
-
 QString getid(QString Qemail)
 {
         QString id_user_sender;
         QSqlQueryModel *model = new QSqlQueryModel;
         model->setQuery("SELECT id_user FROM registration_data WHERE (email=\'"+Qemail+"\')");
         if (model->rowCount() > 0)
-        {        QModelIndex index = model->index(0, 0); // индекс первой ячейки
+        {        QModelIndex index = model->index(0, 0); 
         id_user_sender = model->data(index).toString();
-        }; // получение значения ячейки в виде строки
+        }; 
         return id_user_sender;
 
 }
@@ -145,9 +142,9 @@ QString getQemail(QString Qid)
 
         model->setQuery("SELECT email FROM registration_data WHERE (id_user=\'"+Qid+"\')");
         if (model->rowCount() > 0)
-        {        QModelIndex index = model->index(0, 0); // индекс первой ячейки
+        {        QModelIndex index = model->index(0, 0); 
         Qmale = model->data(index).toString();
-        }; // получение значения ячейки в виде строки
+        }; 
         return Qmale;
 
 }
